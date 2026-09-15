@@ -26,6 +26,14 @@ endif()
 
 option(ABCMIDI_SANITIZERS "Enable AddressSanitizer and UndefinedBehaviorSanitizer" OFF)
 
+# The math library is only needed on non-Windows platforms; on Windows the
+# math functions are part of the CRT, so linking "m" would fail.
+if(WIN32)
+  set(ABCMIDI_MATH_LIB "")
+else()
+  set(ABCMIDI_MATH_LIB m)
+endif()
+
 # --- Compiler configuration ---
 
 # Common compile options applied to every target via an INTERFACE library
@@ -71,38 +79,38 @@ add_executable(abc2midi
   store.c genmidi.c queues.c stresspat.c
 )
 target_link_libraries(abc2midi PRIVATE
-  obj_parseabc obj_parser2 obj_midifile abcmidi_common m)
+  obj_parseabc obj_parser2 obj_midifile abcmidi_common ${ABCMIDI_MATH_LIB})
 
 # abc2abc: ABC notation → ABC notation (transposition, reformatting)
 add_executable(abc2abc toabc.c)
-target_link_libraries(abc2abc PRIVATE obj_parseabc abcmidi_common m)
+target_link_libraries(abc2abc PRIVATE obj_parseabc abcmidi_common ${ABCMIDI_MATH_LIB})
 
 # midi2abc: MIDI → ABC notation
 add_executable(midi2abc midi2abc.c)
-target_link_libraries(midi2abc PRIVATE obj_midifile abcmidi_common m)
+target_link_libraries(midi2abc PRIVATE obj_midifile abcmidi_common ${ABCMIDI_MATH_LIB})
 
 # midistats: MIDI file statistics
 add_executable(midistats midistats.c)
-target_link_libraries(midistats PRIVATE obj_midifile abcmidi_common m)
+target_link_libraries(midistats PRIVATE obj_midifile abcmidi_common ${ABCMIDI_MATH_LIB})
 
 # mftext: MIDI → human-readable text
 add_executable(mftext mftext.c crack.c)
-target_link_libraries(mftext PRIVATE obj_midifile abcmidi_common m)
+target_link_libraries(mftext PRIVATE obj_midifile abcmidi_common ${ABCMIDI_MATH_LIB})
 
 # yaps: ABC notation → PostScript
 add_executable(yaps
   yapstree.c drawtune.c debug.c pslib.c position.c
 )
 target_link_libraries(yaps PRIVATE
-  obj_parseabc obj_parser2 abcmidi_common m)
+  obj_parseabc obj_parser2 abcmidi_common ${ABCMIDI_MATH_LIB})
 
 # midicopy: MIDI file filtering/extraction
 add_executable(midicopy midicopy.c)
-target_link_libraries(midicopy PRIVATE abcmidi_common m)
+target_link_libraries(midicopy PRIVATE abcmidi_common ${ABCMIDI_MATH_LIB})
 
 # abcmatch: ABC tune matching/comparison
 add_executable(abcmatch abcmatch.c matchsup.c)
-target_link_libraries(abcmatch PRIVATE obj_parseabc abcmidi_common m)
+target_link_libraries(abcmatch PRIVATE obj_parseabc abcmidi_common ${ABCMIDI_MATH_LIB})
 
 # --- Install ---
 

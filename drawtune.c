@@ -26,7 +26,6 @@
 
 #ifdef _MSC_VER
 #define ANSILIBS 1
-#define snprintf _snprintf
 #endif
 
 #include <stdio.h>

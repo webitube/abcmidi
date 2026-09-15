@@ -38,7 +38,6 @@
 #include <limits.h>
 /* Microsoft Visual C++ Version 6.0 or higher */
 #ifdef _MSC_VER
-#define snprintf _snprintf
 #define ANSILIBS
 #endif
 
@@ -121,7 +120,7 @@ struct eventstruc {int onsetTime;
                    unsigned char channel;
 		   unsigned char pitch;
 		   unsigned char velocity;
-                   ;} midievents[50000];
+                   } midievents[50000];
 
 int lastEvent = 0;
 

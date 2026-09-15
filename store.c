@@ -199,10 +199,6 @@ int main()
 #endif
 
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "abc.h"
 #include "parseabc.h"
 #include "parser2.h"

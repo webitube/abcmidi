@@ -31,7 +31,6 @@
 /* for Microsoft Visual C++ Ver 6 and higher */
 #ifdef _MSC_VER
 #define ANSILIBS
-#define snprintf _snprintf
 #define strncasecmp strnicmp
 #endif
 
